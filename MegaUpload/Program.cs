@@ -17,15 +17,13 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapHub<NotifyHub>("/notifyhub");
-});
 
 app.UseRouting();
 
 app.UseAuthorization();
 
+app.MapControllers();
+app.MapHub<NotifyHub>("/notifyhub");
 app.MapRazorPages();
 
 app.Run();

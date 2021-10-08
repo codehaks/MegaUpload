@@ -12,7 +12,10 @@ namespace MegaUpload.Controllers
             _logger = logger;
             _notifyHub = notifyHub;
         }
-        public async Task<IActionResult> Index(IFormFile file, [FromServices] IWebHostEnvironment env)
+
+        [HttpPost]
+        [Route("api/upload")]
+        public async Task<IActionResult> Send(IFormFile file, [FromServices] IWebHostEnvironment env)
         {
             byte[] buffer = new byte[16 * 1024];
             long totalBytes = file.Length;

@@ -13,22 +13,29 @@
 
 <h2 id="percent">0%</h2>
 
+<div class="progress">
+    <div id="progressbar" class="progress-bar" style="width: 0%" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+
 @section scripts{
      <script src="~/lib/signalr/dist/browser/signalr.js"></script>
-      <script>
-        var connection = new signalR.HubConnectionBuilder().withUrl("/notifyhub").build();
-        connection.on("receiveProgress", function (progress) {
-            console.log(progress);
+    <script>
+        var connection = new signalR.HubConnectionBuilder()
+            .withUrl('/notifyhub')
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
+        this.connection.start()
+            .catch(function (err) {
+                return console.error(err.toSting());
+            });
+
+        connection.on('sendProgress', function (progress) {
             $("#percent").text(progress + "%");
+            $("#progressbar").css("width", progress + "%");
         });
-
-        connection.start().catch(function (err) {
-            return console.error(err.toString());
-        });
-
+    </script>
+    <script>
         var files = null;
-
-        var data = new FormData();
 
         function handleFileSelect(evt) {
             files = evt.target.files; // FileList object
@@ -39,33 +46,11 @@
                     f.size, ' bytes </li>');
             }
             document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
-
-            $.each(files, function (key, value) {
-                data.append(key, value);
-            });
-
         }
 
         document.getElementById('file').addEventListener('change', handleFileSelect, false);
 
-        $("#upload").click(function (e) {
-            e.preventDefault();
-
-            $.ajax({
-                url: '/api/upload',
-                type: "POST",
-                processData: false,
-                contentType: false,
-                data: { file: data }
-            }).done(function () {
-                     
-                console.log("done");
-                    });
-
-        });
-
-
-
 
     </script>
+
 }
