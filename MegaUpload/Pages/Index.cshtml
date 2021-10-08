@@ -1,0 +1,14 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<form enctype="multipart/form-data" method="post">
+    <input type="file" name="file" id="file" />
+    <button class="btn btn-primary" id="upload">Upload</button>
+</form>
+
+<output id="list"></output>
+
+<h2 id="percent">0%</h2>
