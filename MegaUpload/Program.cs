@@ -1,3 +1,5 @@
+using MegaUpload;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -15,11 +17,10 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
-//app.UseSignalR(routes =>
-//{
-//    routes.MapHub<NotifyHub>("/notifyhub");
-//});
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<NotifyHub>("/notifyhub");
+});
 
 app.UseRouting();
 

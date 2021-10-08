@@ -12,3 +12,60 @@
 <output id="list"></output>
 
 <h2 id="percent">0%</h2>
+
+@section scripts{
+     <script src="~/lib/signalr/dist/browser/signalr.js"></script>
+      <script>
+        var connection = new signalR.HubConnectionBuilder().withUrl("/notifyhub").build();
+        connection.on("receiveProgress", function (progress) {
+            console.log(progress);
+            $("#percent").text(progress + "%");
+        });
+
+        connection.start().catch(function (err) {
+            return console.error(err.toString());
+        });
+
+        var files = null;
+
+        var data = new FormData();
+
+        function handleFileSelect(evt) {
+            files = evt.target.files; // FileList object
+
+            var output = [];
+            for (var i = 0, f; f = files[i]; i++) {
+                output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+                    f.size, ' bytes </li>');
+            }
+            document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+
+            $.each(files, function (key, value) {
+                data.append(key, value);
+            });
+
+        }
+
+        document.getElementById('file').addEventListener('change', handleFileSelect, false);
+
+        $("#upload").click(function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: '/api/upload',
+                type: "POST",
+                processData: false,
+                contentType: false,
+                data: { file: data }
+            }).done(function () {
+                     
+                console.log("done");
+                    });
+
+        });
+
+
+
+
+    </script>
+}
