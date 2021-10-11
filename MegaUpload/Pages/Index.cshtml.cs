@@ -34,7 +34,7 @@ namespace MegaUpload.Pages
                 totalReadBytes += readBytes;
                 int progress = (int)((float)totalReadBytes / (float)totalBytes * 100.0);
                 await _notifyHub.Clients.All.SendAsync("updateProgress", progress);
-                await Task.Delay(10); // It is only to make the process slower
+                await Task.Delay(5); // It is only to make the process slower
             }
 
             TempData["message"] =  $"{ file.FileName} Uploaded successfully.";
