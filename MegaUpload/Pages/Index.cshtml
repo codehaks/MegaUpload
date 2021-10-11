@@ -4,6 +4,13 @@
     ViewData["Title"] = "Home page";
 }
 
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-primary" role="alert">
+        @TempData["message"]
+    </div>
+}
+
 <form enctype="multipart/form-data" method="post">
     <input type="file" name="file" id="file" />
     <button class="btn btn-primary" id="upload">Upload</button>
@@ -29,7 +36,7 @@
                 return console.error(err.toSting());
             });
 
-        connection.on('sendProgress', function (progress) {
+        connection.on('updateProgress', function (progress) {
             $("#percent").text(progress + "%");
             $("#progressbar").css("width", progress + "%");
         });
@@ -38,7 +45,7 @@
         var files = null;
 
         function handleFileSelect(evt) {
-            files = evt.target.files; // FileList object
+            files = evt.target.files; 
 
             var output = [];
             for (var i = 0, f; f = files[i]; i++) {

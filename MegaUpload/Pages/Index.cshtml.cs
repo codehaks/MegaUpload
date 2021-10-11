@@ -33,11 +33,11 @@ namespace MegaUpload.Pages
                 await output.WriteAsync(buffer, 0, readBytes);
                 totalReadBytes += readBytes;
                 int progress = (int)((float)totalReadBytes / (float)totalBytes * 100.0);
-                await _notifyHub.Clients.All.SendAsync("sendProgress", progress);
+                await _notifyHub.Clients.All.SendAsync("updateProgress", progress);
                 await Task.Delay(10); // It is only to make the process slower
             }
 
-            TempData["message"] = "File Uploaded successfully!";
+            TempData["message"] =  $"{ file.FileName} Uploaded successfully.";
             return Page();
         }
     }
