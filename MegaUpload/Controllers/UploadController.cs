@@ -29,8 +29,8 @@ namespace MegaUpload.Controllers
                 await output.WriteAsync(buffer, 0, readBytes);
                 totalReadBytes += readBytes;
                 int progress = (int)((float)totalReadBytes / (float)totalBytes * 100.0);
-                await _notifyHub.Clients.All.SendAsync("receiveProgress", progress);
-                await Task.Delay(100); // It is only to make the process slower
+                await _notifyHub.Clients.All.SendAsync("sendProgress", progress);
+                await Task.Delay(50); // It is only to make the process slower
             }
 
             TempData["message"] = "File Uploaded successfully!";

@@ -8,9 +8,9 @@ namespace MegaUpload
 {
     public class NotifyHub : Hub
     {
-        public async Task SendProgress(int p)
-        {
-            await Clients.All.SendAsync("receiveProgress",p);
-        }
+        //public async Task SendProgress(int p)
+        //{
+        //    await Clients.All.SendAsync("receiveProgress",p);
+        //}
     }
 }
